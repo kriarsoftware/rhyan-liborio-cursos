@@ -71,10 +71,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;color:var(--bone-dim)}
 .hero-top .mono span{color:var(--ember)}
 .hero-title{position:relative;align-self:center;margin-top:3vh;isolation:isolate}
-.hero-title h1{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(64px,15.4vw,260px);line-height:.82;letter-spacing:-.055em;text-transform:uppercase}
+.hero-title h1{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(54px,10.5vw,176px);line-height:.84;letter-spacing:-.055em;text-transform:uppercase}
 .hero-title .row{display:block;overflow:hidden;padding:.14em 0 .04em;margin-top:-.14em}
+.hero-title .row .wd{display:inline-block;white-space:nowrap}
 .hero-title .row .ch{display:inline-block;will-change:transform}
-.hero-title .row.r2{padding-left:16vw}
+.hero-title .row.r2{padding-left:12vw}
 .hero-title .serif-line{font-family:var(--serif);font-style:italic;text-transform:none;font-weight:400;letter-spacing:-.02em;color:var(--ember);font-variation-settings:normal}
 .hero-photo{position:absolute;right:calc(var(--gutter) + 2vw);top:50%;width:clamp(180px,22vw,340px);aspect-ratio:3/4;transform:translateY(-46%);z-index:-1;border-radius:6px;overflow:hidden;clip-path:inset(100% 0 0 0)}
 .hero-photo img{width:100%;height:118%;object-fit:cover;filter:grayscale(1) contrast(1.12) brightness(.82)}
@@ -85,14 +86,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
 .badge{position:relative;width:118px;height:118px;flex:none}
 .badge svg{width:100%;height:100%;animation:spin 18s linear infinite}
-.badge text{font-family:var(--mono);font-size:9.6px;letter-spacing:.24em;fill:var(--bone-dim);text-transform:uppercase}
+.badge text{font-family:var(--mono);font-size:8.6px;letter-spacing:.16em;fill:var(--bone-dim);text-transform:uppercase}
 .badge img{position:absolute;inset:26px;width:66px;height:66px;border-radius:50%;object-fit:cover;filter:grayscale(.2)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* marquee */
 .marquee{border-block:1px solid var(--line);padding:22px 0;overflow:hidden;white-space:nowrap;background:var(--ink)}
 .marquee .track{display:inline-flex;gap:48px;align-items:center;will-change:transform}
-.marquee span{font-weight:800;font-variation-settings:"wdth" 125;font-size:clamp(28px,4vw,56px);letter-spacing:-.03em;text-transform:uppercase}
+.marquee span{font-weight:800;font-variation-settings:"wdth" 125;font-size:clamp(26px,3.2vw,46px);letter-spacing:-.03em;text-transform:uppercase}
 .marquee span.o{color:transparent;-webkit-text-stroke:1px var(--bone-faint)}
 .marquee .razor{width:34px;height:34px;color:var(--ember);flex:none}
 
@@ -101,13 +102,13 @@ section{position:relative}
 .sec{padding-block:clamp(90px,14vw,180px)}
 .eyebrow{display:flex;align-items:center;gap:12px;color:var(--bone-dim);margin-bottom:28px}
 .eyebrow::before{content:"";width:28px;height:1px;background:var(--ember)}
-.h2{font-weight:800;font-variation-settings:"wdth" 118;font-size:clamp(40px,7vw,104px);line-height:.92;letter-spacing:-.045em;text-transform:uppercase}
+.h2{font-weight:800;font-variation-settings:"wdth" 118;font-size:clamp(38px,5.6vw,84px);line-height:.94;letter-spacing:-.045em;text-transform:uppercase}
 .h2 .serif{text-transform:none;color:var(--ember);font-size:1.06em;letter-spacing:-.03em}
 .line-mask{display:block;overflow:hidden}
 .line-mask > span{display:block}
 
 /* manifesto */
-.manifesto p{font-size:clamp(28px,4.3vw,64px);line-height:1.08;letter-spacing:-.03em;font-weight:500;max-width:1250px;font-variation-settings:"wdth" 100}
+.manifesto p{font-size:clamp(26px,3.4vw,52px);line-height:1.1;letter-spacing:-.03em;font-weight:500;max-width:1250px;font-variation-settings:"wdth" 100}
 .manifesto .w{opacity:.14;transition:none}
 .manifesto .w.serif{color:var(--ember)}
 .manifesto-meta{display:flex;justify-content:space-between;margin-top:64px;color:var(--bone-faint);gap:20px;flex-wrap:wrap}
@@ -211,7 +212,7 @@ section{position:relative}
 
 /* final cta */
 .final{text-align:center;padding-block:clamp(110px,16vw,220px);overflow:hidden}
-.final h2{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(52px,11vw,190px);line-height:.84;letter-spacing:-.055em;text-transform:uppercase}
+.final h2{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(48px,8.4vw,144px);line-height:.86;letter-spacing:-.055em;text-transform:uppercase}
 .final h2 .serif{display:block;text-transform:none;color:var(--ember);font-size:.62em;letter-spacing:-.03em;margin:.06em 0}
 .final p{color:var(--bone-dim);margin:30px auto 40px;max-width:460px}
 .final .hero-cta{justify-content:center}
@@ -549,11 +550,19 @@ footer .credit:hover b{color:var(--ember)}
   }));
 
   /* --- split helpers --- */
-  const splitChars = el => { const t = el.innerHTML; el.innerHTML = '';
-    const tmp = document.createElement('div'); tmp.innerHTML = t;
+  // quebra em palavras (sem quebrar no meio) e depois em letras
+  const splitChars = el => {
+    const tmp = document.createElement('div'); tmp.innerHTML = el.innerHTML; el.innerHTML = '';
+    const addWords = (text, parent) => text.split(/(\s+)/).forEach(w => {
+      if (!w) return;
+      if (!w.trim()) { parent.appendChild(document.createTextNode(' ')); return; }
+      const word = document.createElement('span'); word.className = 'wd';
+      [...w].forEach(c => { const s = document.createElement('span'); s.className = 'ch'; s.textContent = c; word.appendChild(s); });
+      parent.appendChild(word);
+    });
     Array.from(tmp.childNodes).forEach(n => {
-      if (n.nodeType === 3) [...n.textContent].forEach(c => { const s = document.createElement('span'); s.className = 'ch'; s.innerHTML = c === ' ' ? '&nbsp;' : c; el.appendChild(s); });
-      else { const inner = n.textContent; n.textContent = ''; [...inner].forEach(c => { const s = document.createElement('span'); s.className = 'ch'; s.innerHTML = c === ' ' ? '&nbsp;' : c; n.appendChild(s); }); el.appendChild(n); }
+      if (n.nodeType === 3) addWords(n.textContent, el);
+      else { const inner = n.textContent; n.textContent = ''; addWords(inner, n); el.appendChild(n); }
     });
   };
   document.querySelectorAll('.hero-title .row').forEach(splitChars);
