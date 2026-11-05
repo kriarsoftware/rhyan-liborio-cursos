@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libório Academy · Cursos de Barbearia</title>
+<meta name="description" content="Aprenda degradê, freestyle e gestão de barbearia com Rhyan Libório. Cursos online com acesso imediato pela Hotmart.">
+<meta name="theme-color" content="#0b0b0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0a; --ink-2:#141412; --ink-3:#1d1c1a; --line:rgba(239,233,223,.12);
+  --bone:#efe9df; --bone-dim:rgba(239,233,223,.62); --bone-faint:rgba(239,233,223,.38);
+  --ember:#e0532d; --ember-soft:rgba(224,83,45,.14);
+  --display:"Archivo",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  --gutter:clamp(16px,4vw,56px); --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--ink);color:var(--bone);font-family:var(--display);font-variation-settings:"wdth" 100;font-size:17px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--ember);color:var(--ink)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.serif{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.wrap{padding-inline:var(--gutter)}
+
+/* grain */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:90;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-4%)}60%{transform:translate(-4%,1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+
+/* preloader */
+.loader{position:fixed;inset:0;z-index:100;display:grid;place-items:center;pointer-events:none}
+.loader .half{position:absolute;left:0;right:0;height:50.5%;background:var(--ink-2)}
+.loader .half.top{top:0}.loader .half.bot{bottom:0}
+.loader .blade{position:absolute;left:0;top:50%;height:1px;width:100%;background:var(--ember);transform-origin:left;transform:scaleX(0);z-index:2}
+.loader .count{position:relative;z-index:3;font-weight:800;font-variation-settings:"wdth" 125;font-size:clamp(64px,14vw,180px);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.loader .tag{position:absolute;bottom:32px;left:var(--gutter);z-index:3;color:var(--bone-dim)}
+.loader .tag2{position:absolute;bottom:32px;right:var(--gutter);z-index:3;color:var(--bone-dim)}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px var(--gutter);transition:background .4s,backdrop-filter .4s}
+.nav.scrolled{background:rgba(11,11,10,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-variation-settings:"wdth" 125;letter-spacing:-.02em;font-size:18px}
+.logo i{width:9px;height:9px;border-radius:50%;background:var(--ember);display:inline-block}
+.nav-links{display:flex;gap:30px}
+.nav-links a{position:relative;color:var(--bone-dim);transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:1px;background:var(--ember);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.nav-links a:hover{color:var(--bone)}.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;padding:15px 24px;border-radius:999px;background:var(--bone);color:var(--ink);font-weight:600;font-size:15px;overflow:hidden;isolation:isolate;white-space:nowrap}
+.btn::before{content:"";position:absolute;inset:0;background:var(--ember);border-radius:inherit;transform:translateY(101%);transition:transform .55s var(--ease);z-index:-1}
+.btn:hover::before{transform:translateY(0)}
+.btn .arr{display:inline-block;transition:transform .5s var(--ease)}
+.btn:hover .arr{transform:translateX(4px) rotate(-45deg)}
+.btn.ghost{background:transparent;color:var(--bone);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.ghost::before{background:var(--bone)}
+.btn.ghost:hover{color:var(--ink)}
+.btn.sm{padding:11px 18px;font-size:14px}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+
+/* hero */
+.hero{position:relative;min-height:100svh;padding-top:110px;padding-bottom:40px;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;color:var(--bone-dim)}
+.hero-top .mono span{color:var(--ember)}
+.hero-title{position:relative;align-self:center;margin-top:3vh;isolation:isolate}
+.hero-title h1{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(64px,15.4vw,260px);line-height:.82;letter-spacing:-.055em;text-transform:uppercase}
+.hero-title .row{display:block;overflow:hidden;padding:.14em 0 .04em;margin-top:-.14em}
+.hero-title .row .ch{display:inline-block;will-change:transform}
+.hero-title .row.r2{padding-left:16vw}
+.hero-title .serif-line{font-family:var(--serif);font-style:italic;text-transform:none;font-weight:400;letter-spacing:-.02em;color:var(--ember);font-variation-settings:normal}
+.hero-photo{position:absolute;right:calc(var(--gutter) + 2vw);top:50%;width:clamp(180px,22vw,340px);aspect-ratio:3/4;transform:translateY(-46%);z-index:-1;border-radius:6px;overflow:hidden;clip-path:inset(100% 0 0 0)}
+.hero-photo img{width:100%;height:118%;object-fit:cover;filter:grayscale(1) contrast(1.12) brightness(.82)}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(11,11,10,.7))}
+.hero-bottom{display:grid;grid-template-columns:1.1fr 1fr auto;gap:32px;align-items:end}
+.hero-bottom p{max-width:420px;color:var(--bone-dim);font-size:18px}
+.hero-bottom p b{color:var(--bone);font-weight:500}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.badge{position:relative;width:118px;height:118px;flex:none}
+.badge svg{width:100%;height:100%;animation:spin 18s linear infinite}
+.badge text{font-family:var(--mono);font-size:9.6px;letter-spacing:.24em;fill:var(--bone-dim);text-transform:uppercase}
+.badge img{position:absolute;inset:26px;width:66px;height:66px;border-radius:50%;object-fit:cover;filter:grayscale(.2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);padding:22px 0;overflow:hidden;white-space:nowrap;background:var(--ink)}
+.marquee .track{display:inline-flex;gap:48px;align-items:center;will-change:transform}
+.marquee span{font-weight:800;font-variation-settings:"wdth" 125;font-size:clamp(28px,4vw,56px);letter-spacing:-.03em;text-transform:uppercase}
+.marquee span.o{color:transparent;-webkit-text-stroke:1px var(--bone-faint)}
+.marquee .razor{width:34px;height:34px;color:var(--ember);flex:none}
+
+/* section heads */
+section{position:relative}
+.sec{padding-block:clamp(90px,14vw,180px)}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--bone-dim);margin-bottom:28px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--ember)}
+.h2{font-weight:800;font-variation-settings:"wdth" 118;font-size:clamp(40px,7vw,104px);line-height:.92;letter-spacing:-.045em;text-transform:uppercase}
+.h2 .serif{text-transform:none;color:var(--ember);font-size:1.06em;letter-spacing:-.03em}
+.line-mask{display:block;overflow:hidden}
+.line-mask > span{display:block}
+
+/* manifesto */
+.manifesto p{font-size:clamp(28px,4.3vw,64px);line-height:1.08;letter-spacing:-.03em;font-weight:500;max-width:1250px;font-variation-settings:"wdth" 100}
+.manifesto .w{opacity:.14;transition:none}
+.manifesto .w.serif{color:var(--ember)}
+.manifesto-meta{display:flex;justify-content:space-between;margin-top:64px;color:var(--bone-faint);gap:20px;flex-wrap:wrap}
+
+/* courses */
+.courses-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:56px;flex-wrap:wrap}
+.courses-head p{max-width:380px;color:var(--bone-dim)}
+.hscroll{position:relative}
+.htrack{display:flex;gap:24px;padding-inline:var(--gutter);width:max-content;will-change:transform}
+.card{position:relative;width:min(440px,82vw);min-height:600px;padding:30px;border-radius:14px;background:var(--ink-2);border:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;transition:border-color .5s,transform .6s var(--ease)}
+.card:hover{border-color:rgba(224,83,45,.5)}
+.card .glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(224,83,45,.22),transparent 65%);pointer-events:none;left:var(--mx,50%);top:var(--my,0%);transform:translate(-50%,-50%);opacity:0;transition:opacity .5s}
+.card:hover .glow{opacity:1}
+.card-top{display:flex;justify-content:space-between;color:var(--bone-faint)}
+.card-num{font-weight:900;font-variation-settings:"wdth" 125;font-size:120px;line-height:.8;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(239,233,223,.22);margin:36px 0 26px;transition:color .6s,-webkit-text-stroke-color .6s}
+.card:hover .card-num{color:var(--ember);-webkit-text-stroke-color:var(--ember)}
+.card h3{font-weight:800;font-variation-settings:"wdth" 112;font-size:34px;line-height:.98;letter-spacing:-.035em;text-transform:uppercase;margin-bottom:14px}
+.card h3 em{font-family:var(--serif);font-style:italic;text-transform:none;font-weight:400;color:var(--ember);font-variation-settings:normal}
+.card > p{color:var(--bone-dim);font-size:16px;margin-bottom:22px}
+.card ul{list-style:none;display:grid;gap:10px;margin-bottom:auto;padding-bottom:28px}
+.card li{display:flex;gap:10px;font-size:15px;color:var(--bone)}
+.card li::before{content:"";flex:none;width:14px;height:1px;background:var(--ember);margin-top:11px}
+.card-meta{display:flex;gap:18px;color:var(--bone-faint);border-top:1px solid var(--line);padding-top:18px;margin-bottom:22px;flex-wrap:wrap}
+.card-buy{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.price small{display:block;color:var(--bone-faint);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.price small s{opacity:.8}
+.price strong{font-weight:800;font-variation-settings:"wdth" 110;font-size:38px;letter-spacing:-.04em;line-height:1}
+.price strong sup{font-size:.42em;vertical-align:.9em;margin-right:3px;font-weight:600}
+.price span{display:block;font-size:13px;color:var(--bone-dim);margin-top:4px}
+.card.feature{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.card.feature .card-top,.card.feature .card-meta,.card.feature .price small{color:rgba(11,11,10,.55)}
+.card.feature > p,.card.feature .price span{color:rgba(11,11,10,.7)}
+.card.feature li{color:var(--ink)}
+.card.feature .card-meta{border-color:rgba(11,11,10,.15)}
+.card.feature .card-num{-webkit-text-stroke-color:rgba(11,11,10,.25)}
+.card.feature .btn{background:var(--ink);color:var(--bone)}
+.card.feature .glow{background:radial-gradient(circle,rgba(224,83,45,.3),transparent 65%)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--ember);color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.progress{height:1px;background:var(--line);margin:48px var(--gutter) 0;position:relative;overflow:hidden}
+.progress i{position:absolute;inset:0;background:var(--ember);transform-origin:left;transform:scaleX(0)}
+.preview-note{margin:20px var(--gutter) 0;color:var(--bone-faint)}
+
+/* trabalhos */
+.works-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px;margin-top:72px;align-items:start}
+.work{position:relative;overflow:hidden;border-radius:10px;background:var(--ink-3)}
+.work img{width:100%;height:116%;object-fit:cover;filter:grayscale(1) contrast(1.08);transition:filter .9s var(--ease),transform 1.2s var(--ease)}
+.work:hover img{filter:grayscale(0) contrast(1.02)}
+.work figcaption{position:absolute;left:16px;bottom:14px;right:16px;display:flex;justify-content:space-between;color:var(--bone)}
+.work::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,11,10,.75));pointer-events:none}
+.work figcaption{z-index:2}
+.w1{grid-column:1 / span 4;aspect-ratio:3/4.2}
+.w2{grid-column:6 / span 3;aspect-ratio:3/4.4;margin-top:160px}
+.w3{grid-column:10 / span 3;aspect-ratio:3/4;margin-top:60px}
+.works-quote{grid-column:1 / span 5;font-family:var(--serif);font-style:italic;font-size:clamp(26px,3vw,40px);line-height:1.1;color:var(--bone-dim);margin-top:40px;max-width:560px}
+.works-quote b{color:var(--bone);font-weight:400}
+
+/* sobre */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);align-items:center}
+.about-photo{position:relative;aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:var(--ink-3)}
+.about-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 100%;filter:grayscale(1) contrast(1.1) brightness(.9)}
+.about-photo .stamp{position:absolute;left:18px;bottom:18px;display:flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:999px;background:rgba(11,11,10,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:2}
+.about-photo .stamp img{width:38px;height:38px;border-radius:50%;filter:none;object-fit:cover}
+.about-photo .stamp b{display:block;font-size:14px;font-weight:600}
+.about-photo .stamp small{font-size:12px;color:var(--bone-dim)}
+.about-text p{color:var(--bone-dim);font-size:19px;margin-top:22px;max-width:520px}
+.about-text p strong{color:var(--bone);font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:48px;border-top:1px solid var(--line)}
+.stat{padding:22px 16px 0 0}
+.stat b{display:block;white-space:nowrap;font-weight:800;font-variation-settings:"wdth" 120;font-size:clamp(30px,3.4vw,48px);letter-spacing:-.04em;line-height:1}
+.stat span{display:block;margin-top:8px;color:var(--bone-faint)}
+
+/* passos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:72px;border-top:1px solid var(--line)}
+.step{padding:34px 28px 10px 0;border-right:1px solid var(--line);margin-right:28px}
+.step:last-child{border-right:0;margin-right:0}
+.step .n{color:var(--ember)}
+.step h4{font-weight:700;font-variation-settings:"wdth" 110;font-size:26px;letter-spacing:-.025em;margin:40px 0 12px;text-transform:uppercase}
+.step p{color:var(--bone-dim);max-width:320px}
+.step svg{width:44px;height:44px;color:var(--bone);margin-top:28px}
+
+/* garantia */
+.guarantee{display:flex;align-items:center;gap:clamp(24px,5vw,72px);padding:clamp(28px,4vw,56px);border-radius:16px;background:var(--ink-2);border:1px solid var(--line);margin-top:clamp(70px,10vw,120px)}
+.seal{flex:none;width:clamp(110px,14vw,170px);aspect-ratio:1;border-radius:50%;border:1px dashed var(--ember);display:grid;place-items:center;text-align:center}
+.seal b{display:block;font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(44px,6vw,72px);line-height:.85;letter-spacing:-.05em}
+.seal small{color:var(--bone-dim)}
+.guarantee h3{font-weight:800;font-variation-settings:"wdth" 112;font-size:clamp(26px,3vw,40px);letter-spacing:-.03em;text-transform:uppercase;line-height:1}
+.guarantee p{color:var(--bone-dim);margin-top:12px;max-width:620px}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(40px,6vw,100px)}
+.qa{border-top:1px solid var(--line)}
+.qa:last-child{border-bottom:1px solid var(--line)}
+.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:26px 0;text-align:left;font-size:clamp(18px,1.8vw,22px);font-weight:500;letter-spacing:-.01em}
+.qa .plus{position:relative;flex:none;width:16px;height:16px}
+.qa .plus::before,.qa .plus::after{content:"";position:absolute;left:0;top:50%;width:100%;height:1.5px;background:var(--bone);transition:transform .5s var(--ease),background .3s}
+.qa .plus::after{transform:rotate(90deg)}
+.qa.open .plus::after{transform:rotate(0)}
+.qa.open .plus::before,.qa.open .plus::after{background:var(--ember)}
+.qa .ans{height:0;overflow:hidden}
+.qa .ans p{padding-bottom:26px;color:var(--bone-dim);max-width:640px}
+
+/* final cta */
+.final{text-align:center;padding-block:clamp(110px,16vw,220px);overflow:hidden}
+.final h2{font-weight:900;font-variation-settings:"wdth" 125;font-size:clamp(52px,11vw,190px);line-height:.84;letter-spacing:-.055em;text-transform:uppercase}
+.final h2 .serif{display:block;text-transform:none;color:var(--ember);font-size:.62em;letter-spacing:-.03em;margin:.06em 0}
+.final p{color:var(--bone-dim);margin:30px auto 40px;max-width:460px}
+.final .hero-cta{justify-content:center}
+
+footer{border-top:1px solid var(--line);padding:42px var(--gutter);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;color:var(--bone-faint)}
+footer a{color:var(--bone-dim);transition:color .3s}
+footer a:hover{color:var(--ember)}
+footer .links{display:flex;gap:24px;flex-wrap:wrap}
+footer .credit{color:var(--bone-faint)}
+footer .credit b{color:var(--bone);font-weight:500;transition:color .3s}
+footer .credit:hover b{color:var(--ember)}
+
+/* cursor */
+.cursor{position:fixed;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--ember);pointer-events:none;z-index:95;transform:translate(-50%,-50%);mix-blend-mode:difference;display:none}
+.cursor-ring{position:fixed;left:0;top:0;width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,233,223,.35);pointer-events:none;z-index:95;transform:translate(-50%,-50%);display:none;align-items:center;justify-content:center}
+.cursor-ring span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:0;color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.cursor{display:block}.cursor-ring{display:flex}}
+
+/* reveal helpers (estado inicial só com JS ativo) */
+.js .rv{opacity:0;transform:translateY(40px)}
+
+@media (max-width:1000px){
+  .nav-links{display:none}
+  .hero-bottom{grid-template-columns:1fr;gap:24px}
+  .badge{position:absolute;right:var(--gutter);top:120px;width:96px;height:96px}
+  .badge img{inset:21px;width:54px;height:54px}
+  .hero-photo{width:44vw;right:var(--gutter);top:44%;opacity:.55}
+  .hero-title .row.r2{padding-left:8vw}
+  .about,.faq-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .step{border-right:0;margin-right:0;border-bottom:1px solid var(--line);padding-right:0;padding-bottom:30px}
+  .step h4{margin-top:22px}
+  .works-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .w1{grid-column:1 / -1;aspect-ratio:4/5}
+  .w2{grid-column:1;margin-top:0}
+  .w3{grid-column:2;margin-top:48px}
+  .works-quote{grid-column:1 / -1;margin-top:20px}
+  .htrack{flex-direction:column;width:auto}
+  .card{width:100%;min-height:0}
+  .card-num{font-size:88px;margin:24px 0 18px}
+  .progress{display:none}
+  .guarantee{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .hero-top .mono:last-child{display:none}
+  .hero-bottom p{font-size:16px}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat b{font-size:30px}
+  .card{padding:24px}
+  .card h3{font-size:28px}
+  .card-buy{flex-direction:column;align-items:stretch}
+  .card-buy .btn{justify-content:center}
+  .marquee span{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){
+  .grain,.badge svg{animation:none}
+  .js .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span>Ver</span></div>
+
+<div class="loader" aria-hidden="true">
+  <div class="half top"></div><div class="half bot"></div><div class="blade"></div>
+  <div class="count"><span class="num">0</span>%</div>
+  <div class="tag mono">Libório Academy</div><div class="tag2 mono">Afiando a navalha…</div>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#topo" class="logo" aria-label="Libório Academy, início"><i></i>LIBÓRIO</a>
+  <nav class="nav-links" aria-label="Principal">
+    <a href="#cursos">Cursos</a><a href="#trabalhos">Trabalhos</a><a href="#sobre">Sobre</a><a href="#duvidas">Dúvidas</a>
+  </nav>
+  <a href="#cursos" class="btn sm magnetic">Ver cursos <span class="arr">→</span></a>
+</header>
+
+<main id="topo">
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div class="hero-top">
+      <div class="mono rv">Cursos online <span>●</span> Barbearia</div>
+      <div class="mono rv">Acesso imediato via Hotmart</div>
+    </div>
+    <div class="hero-title">
+      <h1 aria-label="Libório, a arte do corte">
+        <span class="row r1" aria-hidden="true">Libório</span>
+        <span class="row r2" aria-hidden="true"><span class="serif-line">a arte</span> do corte</span>
+      </h1>
+      <figure class="hero-photo" data-cursor="Ver"><img src="assets/ig/freestyle-2.jpg" alt="Corte com freestyle feito por Rhyan Libório"></figure>
+    </div>
+    <div class="hero-bottom">
+      <p class="rv">Aprenda <b>degradê, freestyle e gestão de barbearia</b> com quem vive a cadeira todo dia. Do primeiro risco ao primeiro cliente fiel.</p>
+      <div class="hero-cta rv">
+        <a href="#cursos" class="btn magnetic">Quero aprender <span class="arr">→</span></a>
+        <a href="#sobre" class="btn ghost magnetic">Conheça o Rhyan</a>
+      </div>
+      <div class="badge rv" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><defs><path id="circ" d="M60,60 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs>
+          <text><textPath href="#circ">Barbeiro • Educador • Libório • Academy •</textPath></text></svg>
+        <img src="assets/ig/perfil.jpg" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>Degradê</span><svg class="razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 15l9-9 3 3-9 9H3v-3z"/><path d="M14 4l2-2 6 6-2 2"/></svg>
+      <span class="o">Freestyle</span><svg class="razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg>
+      <span>Navalha</span><svg class="razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 15l9-9 3 3-9 9H3v-3z"/><path d="M14 4l2-2 6 6-2 2"/></svg>
+      <span class="o">Cachos</span><svg class="razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg>
+      <span>Gestão</span><svg class="razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 15l9-9 3 3-9 9H3v-3z"/><path d="M14 4l2-2 6 6-2 2"/></svg>
+      <span class="o">Atendimento</span><svg class="razor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg>
+    </div>
+  </div>
+
+  <!-- MANIFESTO -->
+  <section class="sec wrap manifesto">
+    <div class="eyebrow mono">O que você vai levar</div>
+    <p class="split-words">Tesoura qualquer um segura. O que separa um barbeiro de <span class="serif">verdade</span> é a mão firme no degradê, o olho no detalhe e a cabeça de quem sabe cobrar pelo próprio <span class="serif">talento.</span></p>
+    <div class="manifesto-meta mono"><span>Técnica</span><span>Detalhe</span><span>Atendimento</span><span>Lucro</span></div>
+  </section>
+
+  <!-- CURSOS -->
+  <section class="sec" id="cursos" style="padding-bottom:clamp(60px,8vw,110px)">
+    <div class="wrap courses-head">
+      <div>
+        <div class="eyebrow mono">Cursos · Hotmart</div>
+        <h2 class="h2"><span class="line-mask"><span>Escolha o seu</span></span><span class="line-mask"><span><span class="serif">próximo</span> nível</span></span></h2>
+      </div>
+      <p class="rv">Aulas gravadas em vídeo, direto da barbearia, com câmera no detalhe. Assista no seu ritmo, quantas vezes quiser.</p>
+    </div>
+    <div class="hscroll">
+      <div class="htrack">
+        <article class="card">
+          <div class="glow"></div>
+          <div class="card-top mono"><span>Iniciante</span><span>Módulo técnico</span></div>
+          <div class="card-num">01</div>
+          <h3>Degradê <em>sem marca</em></h3>
+          <p>Do low ao high fade: transições limpas, sem degrau, em qualquer tipo de cabelo.</p>
+          <ul><li>Escolha e ordem das lâminas</li><li>Low, mid e high fade</li><li>Acabamento e pezinho na navalha</li></ul>
+          <div class="card-meta mono"><span>12 aulas</span><span>3h20</span><span>Certificado</span></div>
+          <div class="card-buy">
+            <div class="price"><small><s>R$ 197</s> por</small><strong><sup>R$</sup>97</strong><span>ou 12x de R$ 9,74</span></div>
+            <a href="#" class="btn magnetic hotmart" data-hotmart="DEGRADE">Garantir acesso <span class="arr">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="glow"></div>
+          <div class="card-top mono"><span>Intermediário</span><span>Módulo artístico</span></div>
+          <div class="card-num">02</div>
+          <h3>Freestyle <em>na navalha</em></h3>
+          <p>Riscos, desenhos e linhas que fazem o cliente postar o corte antes de sair da cadeira.</p>
+          <ul><li>Traço firme e simetria</li><li>Estrelas, raios e formas livres</li><li>Como cobrar à parte pelo desenho</li></ul>
+          <div class="card-meta mono"><span>9 aulas</span><span>2h40</span><span>Certificado</span></div>
+          <div class="card-buy">
+            <div class="price"><small><s>R$ 247</s> por</small><strong><sup>R$</sup>127</strong><span>ou 12x de R$ 12,76</span></div>
+            <a href="#" class="btn magnetic hotmart" data-hotmart="FREESTYLE">Garantir acesso <span class="arr">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="glow"></div>
+          <div class="card-top mono"><span>Todos os níveis</span><span>Módulo textura</span></div>
+          <div class="card-num">03</div>
+          <h3>Cachos <em>&amp; texturas</em></h3>
+          <p>Corte em cabelo cacheado e crespo sem perder o volume, a definição e o cliente.</p>
+          <ul><li>Leitura de curvatura e volume</li><li>Corte a seco × molhado</li><li>Finalização e indicação de produtos</li></ul>
+          <div class="card-meta mono"><span>8 aulas</span><span>2h10</span><span>Certificado</span></div>
+          <div class="card-buy">
+            <div class="price"><small><s>R$ 197</s> por</small><strong><sup>R$</sup>97</strong><span>ou 12x de R$ 9,74</span></div>
+            <a href="#" class="btn magnetic hotmart" data-hotmart="CACHOS">Garantir acesso <span class="arr">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="glow"></div>
+          <div class="card-top mono"><span>Negócio</span><span>Módulo gestão</span></div>
+          <div class="card-num">04</div>
+          <h3>Barbeiro <em>lucrativo</em></h3>
+          <p>Preço, agenda cheia e Instagram que traz cliente. A parte que ninguém ensina na escola.</p>
+          <ul><li>Como reajustar sem perder cliente</li><li>Agenda online e fidelização</li><li>Conteúdo que vende no Instagram</li></ul>
+          <div class="card-meta mono"><span>10 aulas</span><span>2h50</span><span>Planilhas</span></div>
+          <div class="card-buy">
+            <div class="price"><small><s>R$ 197</s> por</small><strong><sup>R$</sup>97</strong><span>ou 12x de R$ 9,74</span></div>
+            <a href="#" class="btn magnetic hotmart" data-hotmart="LUCRATIVO">Garantir acesso <span class="arr">→</span></a>
+          </div>
+        </article>
+        <article class="card feature">
+          <div class="glow"></div>
+          <div class="card-top mono"><span class="pill">Mais escolhido</span><span>Tudo incluso</span></div>
+          <div class="card-num">∞</div>
+          <h3>Formação <em>Libório</em> completa</h3>
+          <p>Os 4 cursos + bônus exclusivos. O caminho inteiro, do primeiro fade à barbearia lotada.</p>
+          <ul><li>Os 4 cursos completos</li><li>Bônus: aula de atendimento premium</li><li>Bônus: kit de precificação</li><li>Grupo de alunos no WhatsApp</li></ul>
+          <div class="card-meta mono"><span>39+ aulas</span><span>11h+</span><span>Certificado</span></div>
+          <div class="card-buy">
+            <div class="price"><small><s>R$ 418</s> por</small><strong><sup>R$</sup>247</strong><span>ou 12x de R$ 24,82</span></div>
+            <a href="#" class="btn magnetic hotmart" data-hotmart="COMBO">Quero a formação <span class="arr">→</span></a>
+          </div>
+        </article>
+      </div>
+      <div class="progress"><i></i></div>
+    </div>
+    <p class="preview-note mono">* Prévia: cursos, valores e parcelas fictícios. Serão atualizados com os produtos reais da Hotmart.</p>
+  </section>
+
+  <!-- TRABALHOS -->
+  <section class="sec wrap" id="trabalhos" style="padding-top:clamp(60px,8vw,110px)">
+    <div class="eyebrow mono">Direto da cadeira</div>
+    <h2 class="h2"><span class="line-mask"><span>O trabalho</span></span><span class="line-mask"><span>fala <span class="serif">por si</span></span></span></h2>
+    <div class="works-grid">
+      <figure class="work w1" data-cursor="Ver"><img data-speed="-8" src="assets/ig/freestyle-2.jpg" alt="Corte com desenho freestyle em formato de estrela"><figcaption class="mono"><span>Freestyle</span><span>01</span></figcaption></figure>
+      <figure class="work w2" data-cursor="Ver"><img data-speed="-12" src="assets/ig/freestyle-1.jpg" alt="Degradê com risco na nuca"><figcaption class="mono"><span>Degradê + risco</span><span>02</span></figcaption></figure>
+      <figure class="work w3" data-cursor="Ver"><img data-speed="-6" src="assets/ig/corte-espelho.jpg" alt="Cliente vendo o resultado do corte no espelho" style="object-position:50% 100%"><figcaption class="mono"><span>Textura</span><span>03</span></figcaption></figure>
+      <p class="works-quote rv">“Cada cliente que levanta da cadeira é <b>o melhor anúncio</b> que um barbeiro pode ter.”</p>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="sec wrap" id="sobre">
+    <div class="about">
+      <div class="about-photo rv">
+        <img src="assets/ig/corte-espelho.jpg" alt="Rhyan Libório finalizando um corte na barbearia">
+        <div class="stamp"><img src="assets/ig/perfil.jpg" alt=""><div><b>@rhyan_liborioo</b><small>Barbeiro & educador</small></div></div>
+      </div>
+      <div class="about-text">
+        <div class="eyebrow mono">Quem ensina</div>
+        <h2 class="h2"><span class="line-mask"><span>Rhyan</span></span><span class="line-mask"><span><span class="serif">Libório</span></span></span></h2>
+        <p class="rv">Barbeiro na <strong>Barbearia Lamim's</strong>, conhecido pelo degradê limpo e pelos freestyles que viram vídeo no feed. Na bio ele se define como <strong>“barbeiro e besta nas horas vagas”</strong>, e é exatamente esse jeito leve que deixa as aulas fáceis de acompanhar.</p>
+        <p class="rv">Agora ele abre a técnica, os atalhos e os bastidores do negócio para quem quer viver da barbearia de verdade.</p>
+        <div class="stats">
+          <div class="stat"><b><span class="countup" data-to="4.8" data-dec="1">0</span>mil</b><span class="mono">Seguidores</span></div>
+          <div class="stat"><b><span class="countup" data-to="39">0</span>+</b><span class="mono">Aulas gravadas</span></div>
+          <div class="stat"><b><span class="countup" data-to="100">0</span>%</b><span class="mono">Online</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="sec wrap" style="padding-top:0">
+    <div class="eyebrow mono">Como funciona</div>
+    <h2 class="h2"><span class="line-mask"><span>Três passos até</span></span><span class="line-mask"><span>a <span class="serif">primeira aula</span></span></span></h2>
+    <div class="steps">
+      <div class="step rv"><span class="mono n">01</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
+        <h4>Escolha o curso</h4><p>Um módulo específico ou a formação completa. Você decide por onde começar.</p></div>
+      <div class="step rv"><span class="mono n">02</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+        <h4>Pague com segurança</h4><p>Checkout da Hotmart, no Pix, boleto ou cartão em até 12x.</p></div>
+      <div class="step rv"><span class="mono n">03</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/></svg>
+        <h4>Assista na hora</h4><p>O acesso chega no seu e-mail. Celular, tablet ou computador, quando quiser.</p></div>
+    </div>
+    <div class="guarantee rv">
+      <div class="seal"><div><b>7</b><small class="mono">dias de garantia</small></div></div>
+      <div><h3>Risco zero pra você</h3><p>Assistiu e achou que não era pra você? Peça o reembolso em até 7 dias direto pela Hotmart. Sem pergunta, sem burocracia.</p></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec wrap" id="duvidas" style="padding-top:0">
+    <div class="faq-grid">
+      <div>
+        <div class="eyebrow mono">Dúvidas</div>
+        <h2 class="h2"><span class="line-mask"><span>Perguntas</span></span><span class="line-mask"><span><span class="serif">frequentes</span></span></span></h2>
+      </div>
+      <div class="faq">
+        <div class="qa"><button aria-expanded="false">Nunca peguei numa máquina. Os cursos servem pra mim?<span class="plus"></span></button><div class="ans"><p>Sim. O curso de Degradê começa do zero: lâminas, posição da mão e ordem de cada passo. Os outros módulos sobem o nível aos poucos.</p></div></div>
+        <div class="qa"><button aria-expanded="false">Como recebo o acesso depois da compra?<span class="plus"></span></button><div class="ans"><p>Assim que o pagamento é aprovado, a Hotmart envia o acesso para o seu e-mail. No Pix e no cartão a liberação é imediata.</p></div></div>
+        <div class="qa"><button aria-expanded="false">Por quanto tempo posso assistir?<span class="plus"></span></button><div class="ans"><p>O acesso é de 1 ano a partir da compra, e você pode rever as aulas quantas vezes quiser nesse período.</p></div></div>
+        <div class="qa"><button aria-expanded="false">Tem certificado?<span class="plus"></span></button><div class="ans"><p>Tem. Ao concluir as aulas, o certificado fica disponível para download na própria plataforma.</p></div></div>
+        <div class="qa"><button aria-expanded="false">E se eu não gostar?<span class="plus"></span></button><div class="ans"><p>Você tem 7 dias de garantia. É só pedir o reembolso pela Hotmart e o valor é devolvido integralmente.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final wrap">
+    <h2><span class="line-mask"><span>Sua cadeira</span></span><span class="line-mask"><span class="serif">merece</span></span><span class="line-mask"><span>fila de espera</span></span></h2>
+    <p class="rv">Comece hoje. A próxima transição perfeita pode ser a sua.</p>
+    <div class="hero-cta rv">
+      <a href="#cursos" class="btn magnetic">Ver os cursos <span class="arr">→</span></a>
+      <a href="https://www.instagram.com/rhyan_liborioo/" target="_blank" rel="noopener" class="btn ghost magnetic">Instagram</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a href="#topo" class="logo"><i></i>LIBÓRIO</a>
+  <div class="links mono">
+    <a href="https://www.instagram.com/rhyan_liborioo/" target="_blank" rel="noopener">Instagram</a>
+    <a href="#cursos">Cursos</a><a href="#duvidas">Dúvidas</a>
+  </div>
+  <span class="mono">© 2026 Rhyan Libório · Pagamentos via Hotmart</span>
+  <a href="https://kriar.io" target="_blank" rel="noopener" class="credit mono">Desenvolvido por <b>Kriar</b></a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof gsap !== 'undefined';
+  const loader = document.querySelector('.loader');
+  if (!hasGsap) { document.documentElement.classList.remove('js'); loader.remove(); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* --- Hotmart: troque pelos links reais --- */
+  const HOTMART = { DEGRADE:'', FREESTYLE:'', CACHOS:'', LUCRATIVO:'', COMBO:'' };
+  document.querySelectorAll('.hotmart').forEach(a => {
+    const url = HOTMART[a.dataset.hotmart];
+    if (url) { a.href = url; a.target = '_blank'; a.rel = 'noopener'; }
+    else a.addEventListener('click', e => { e.preventDefault(); a.querySelector('.arr').textContent = '✓'; });
+  });
+
+  /* --- smooth scroll --- */
+  let lenis;
+  if (!reduce && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+    lenis.stop();
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href'); if (id.length < 2) return;
+    const el = document.querySelector(id); if (!el) return;
+    e.preventDefault(); lenis ? lenis.scrollTo(el, { offset: id === '#topo' ? 0 : -70 }) : el.scrollIntoView({ behavior: 'smooth' });
+  }));
+
+  /* --- split helpers --- */
+  const splitChars = el => { const t = el.innerHTML; el.innerHTML = '';
+    const tmp = document.createElement('div'); tmp.innerHTML = t;
+    Array.from(tmp.childNodes).forEach(n => {
+      if (n.nodeType === 3) [...n.textContent].forEach(c => { const s = document.createElement('span'); s.className = 'ch'; s.innerHTML = c === ' ' ? '&nbsp;' : c; el.appendChild(s); });
+      else { const inner = n.textContent; n.textContent = ''; [...inner].forEach(c => { const s = document.createElement('span'); s.className = 'ch'; s.innerHTML = c === ' ' ? '&nbsp;' : c; n.appendChild(s); }); el.appendChild(n); }
+    });
+  };
+  document.querySelectorAll('.hero-title .row').forEach(splitChars);
+
+  const words = document.querySelector('.split-words');
+  (function splitWords(el){
+    const out = [];
+    Array.from(el.childNodes).forEach(n => {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(w => out.push(w.trim() ? `<span class="w">${w}</span>` : w));
+      else out.push(`<span class="w serif">${n.textContent}</span>`);
+    });
+    el.innerHTML = out.join('');
+  })(words);
+
+  /* --- intro --- */
+  const num = loader.querySelector('.num');
+  const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  const counter = { v: 0 };
+  if (reduce) { loader.remove(); gsap.set('.hero-photo', { clipPath: 'inset(0% 0 0 0)' }); gsap.set('.rv', { opacity: 1, y: 0 }); }
+  else {
+    intro.to(counter, { v: 100, duration: 1.6, ease: 'power2.inOut', onUpdate: () => num.textContent = Math.round(counter.v) })
+      .to('.loader .blade', { scaleX: 1, duration: .6, ease: 'power3.inOut' }, '-=.35')
+      .to(['.loader .count', '.loader .tag', '.loader .tag2'], { opacity: 0, duration: .25 }, '<.3')
+      .to('.loader .top', { yPercent: -100, duration: 1.1, ease: 'expo.inOut' }, '+=.05')
+      .to('.loader .bot', { yPercent: 100, duration: 1.1, ease: 'expo.inOut' }, '<')
+      .to('.loader .blade', { opacity: 0, duration: .3 }, '<')
+      .from('.hero-title .ch', { yPercent: 110, rotate: 6, duration: 1.3, stagger: .035 }, '<.35')
+      .to('.hero-photo', { clipPath: 'inset(0% 0 0 0)', duration: 1.4, ease: 'expo.inOut' }, '<.2')
+      .from('.hero-photo img', { scale: 1.35, duration: 1.8 }, '<')
+      .to('.hero .rv', { opacity: 1, y: 0, duration: 1.1, stagger: .08 }, '<.4')
+      .from('.nav', { yPercent: -100, opacity: 0, duration: 1 }, '<')
+      .add(() => { loader.remove(); lenis && lenis.start(); });
+  }
+
+  /* --- nav state --- */
+  const nav = document.getElementById('nav');
+  ScrollTrigger.create({ start: 40, onUpdate: s => nav.classList.toggle('scrolled', s.scroll() > 40) });
+
+  if (reduce) { document.querySelectorAll('.manifesto .w').forEach(w => w.style.opacity = 1);
+    document.querySelectorAll('.countup').forEach(c => c.textContent = (+c.dataset.to).toLocaleString('pt-BR', { minimumFractionDigits: +(c.dataset.dec||0) }));
+    initFaq(); return; }
+
+  /* --- hero parallax --- */
+  gsap.to('.hero-title h1', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero-photo img', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero-photo', { rotate: -4, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  /* --- marquee: velocidade reage ao scroll --- */
+  const track = document.querySelector('.marquee .track');
+  track.innerHTML += track.innerHTML;
+  const mq = gsap.to(track, { xPercent: -50, duration: 22, ease: 'none', repeat: -1 });
+  let dir = 1;
+  ScrollTrigger.create({ onUpdate: s => {
+    const v = s.getVelocity(); if (s.direction !== dir) dir = s.direction;
+    gsap.to(mq, { timeScale: dir * Math.min(1 + Math.abs(v) / 300, 5), duration: .25, overwrite: true });
+    gsap.to(mq, { timeScale: dir, duration: 1.2, delay: .25 });
+  }});
+
+  /* --- manifesto: palavras acendem com o scroll --- */
+  gsap.to('.manifesto .w', { opacity: 1, stagger: .1, ease: 'none',
+    scrollTrigger: { trigger: '.manifesto p', start: 'top 80%', end: 'bottom 45%', scrub: .6 } });
+
+  /* --- títulos em máscara --- */
+  document.querySelectorAll('.h2, .final h2').forEach(h => {
+    gsap.from(h.querySelectorAll('.line-mask > span'), { yPercent: 105, duration: 1.2, ease: 'expo.out', stagger: .09,
+      scrollTrigger: { trigger: h, start: 'top 85%' } });
+  });
+
+  /* --- reveals genéricos --- */
+  gsap.utils.toArray('.rv').filter(el => !el.closest('.hero')).forEach(el => {
+    gsap.to(el, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
+  });
+
+  /* --- cursos: scroll horizontal (desktop) --- */
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 1001px)', () => {
+    const htrack = document.querySelector('.htrack');
+    const dist = () => htrack.scrollWidth - innerWidth;
+    const tween = gsap.to(htrack, { x: () => -dist(), ease: 'none',
+      scrollTrigger: { trigger: '.hscroll', start: 'top 12%', end: () => '+=' + dist(), pin: true, scrub: .8, invalidateOnRefresh: true,
+        onUpdate: s => gsap.set('.progress i', { scaleX: s.progress }) } });
+    gsap.utils.toArray('.card').forEach((c, i) => {
+      gsap.from(c, { y: 80, opacity: 0, rotate: 2, duration: 1.2, ease: 'expo.out', delay: i * .08,
+        scrollTrigger: { trigger: '.hscroll', start: 'top 80%' } });
+    });
+    return () => tween.scrollTrigger && tween.scrollTrigger.kill();
+  });
+  mm.add('(max-width: 1000px)', () => {
+    gsap.utils.toArray('.card').forEach(c => gsap.from(c, { y: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: c, start: 'top 90%' } }));
+  });
+
+  /* glow segue o mouse nos cards */
+  document.querySelectorAll('.card').forEach(c => c.addEventListener('pointermove', e => {
+    const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
+
+  /* --- trabalhos: entrada em cortina + parallax interno --- */
+  gsap.utils.toArray('.work, .about-photo').forEach(w => {
+    gsap.fromTo(w, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'expo.inOut', scrollTrigger: { trigger: w, start: 'top 85%' } });
+    const img = w.querySelector('img[data-speed]');
+    if (img) gsap.fromTo(img, { yPercent: 0 }, { yPercent: +img.dataset.speed, ease: 'none', scrollTrigger: { trigger: w, start: 'top bottom', end: 'bottom top', scrub: true } });
+  });
+
+  /* --- contadores --- */
+  document.querySelectorAll('.countup').forEach(c => {
+    const o = { v: 0 }, dec = +(c.dataset.dec || 0);
+    gsap.to(o, { v: +c.dataset.to, duration: 2, ease: 'power3.out', scrollTrigger: { trigger: c, start: 'top 90%' },
+      onUpdate: () => c.textContent = o.v.toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec }) });
+  });
+
+  /* --- passos: linha desenhando --- */
+  gsap.from('.seal', { rotate: -120, scale: .6, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: '.guarantee', start: 'top 85%' } });
+
+  /* --- final: título se aproxima --- */
+  gsap.from('.final h2', { scale: .86, ease: 'none', scrollTrigger: { trigger: '.final', start: 'top bottom', end: 'center center', scrub: true } });
+
+  initFaq();
+
+  /* --- cursor + magnético (somente ponteiro fino) --- */
+  if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    const dot = document.querySelector('.cursor'), ring = document.querySelector('.cursor-ring'), label = ring.querySelector('span');
+    const dx = gsap.quickTo(dot, 'x', { duration: .12 }), dy = gsap.quickTo(dot, 'y', { duration: .12 });
+    const rx = gsap.quickTo(ring, 'x', { duration: .5, ease: 'power3' }), ry = gsap.quickTo(ring, 'y', { duration: .5, ease: 'power3' });
+    addEventListener('pointermove', e => { dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY); });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => gsap.to(ring, { scale: 1.5, borderColor: 'rgba(224,83,45,.8)', duration: .4 }));
+      el.addEventListener('mouseleave', () => gsap.to(ring, { scale: 1, borderColor: 'rgba(239,233,223,.35)', duration: .4 }));
+    });
+    document.querySelectorAll('[data-cursor]').forEach(el => {
+      el.addEventListener('mouseenter', () => { gsap.to(ring, { scale: 2.1, backgroundColor: '#efe9df', borderColor: '#efe9df', duration: .4 }); gsap.to(label, { opacity: 1, duration: .3 }); gsap.to(dot, { scale: 0, duration: .3 }); });
+      el.addEventListener('mouseleave', () => { gsap.to(ring, { scale: 1, backgroundColor: 'transparent', borderColor: 'rgba(239,233,223,.35)', duration: .4 }); gsap.to(label, { opacity: 0, duration: .2 }); gsap.to(dot, { scale: 1, duration: .3 }); });
+    });
+    document.querySelectorAll('.magnetic').forEach(b => {
+      const xTo = gsap.quickTo(b, 'x', { duration: .6, ease: 'elastic.out(1,.4)' }), yTo = gsap.quickTo(b, 'y', { duration: .6, ease: 'elastic.out(1,.4)' });
+      b.addEventListener('pointermove', e => { const r = b.getBoundingClientRect(); xTo((e.clientX - r.left - r.width / 2) * .3); yTo((e.clientY - r.top - r.height / 2) * .4); });
+      b.addEventListener('pointerleave', () => { xTo(0); yTo(0); });
+    });
+  }
+
+  function initFaq() {
+    document.querySelectorAll('.qa').forEach(qa => {
+      const btn = qa.querySelector('button'), ans = qa.querySelector('.ans');
+      btn.addEventListener('click', () => {
+        const open = !qa.classList.contains('open');
+        document.querySelectorAll('.qa.open').forEach(o => { if (o !== qa) { o.classList.remove('open'); o.querySelector('button').setAttribute('aria-expanded', 'false'); gsap.to(o.querySelector('.ans'), { height: 0, duration: .5, ease: 'expo.out' }); } });
+        qa.classList.toggle('open', open); btn.setAttribute('aria-expanded', open);
+        gsap.to(ans, { height: open ? 'auto' : 0, duration: reduce ? 0 : .6, ease: 'expo.out', onComplete: () => ScrollTrigger.refresh() });
+      });
+    });
+  }
+
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+</body>
+</html>
